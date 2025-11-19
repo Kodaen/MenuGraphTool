@@ -1,1 +1,13 @@
-
+{
+  "name": "com.kodaen.menu-graph-tool",
+  "version": "1.0.0",
+  "displayName": "Menu Graph Tool",
+  "description": "Tools that allows to create menu and submenu flow with a graph editor",
+  "unity": "6000.2",
+  "dependencies": {
+    "com.unity.graphtoolkit": "0.4.0-exp.2"
+  },
+  "author": {
+    "name": "Kodaen"
+  }
+}
