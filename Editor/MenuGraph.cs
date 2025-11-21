@@ -1,10 +1,8 @@
-using UnityEngine;
-using UnityEditor;
-using Unity.GraphToolkit.Editor;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEditor.Experimental.GraphView;
+using Unity.GraphToolkit.Editor;
+using UnityEditor;
 
 namespace MenuGraphTool.Editor
 {
@@ -25,12 +23,10 @@ namespace MenuGraphTool.Editor
         }
         #endregion Static Methods
 
-
         #region Methods
         public override void OnGraphChanged(GraphLogger infos)
         {
             base.OnGraphChanged(infos);
-
             CheckGraphErrors(infos);
         }
 
@@ -51,7 +47,7 @@ namespace MenuGraphTool.Editor
                         break;
                     }
             }
-        } 
+        }
         #endregion Methods
 
     }
