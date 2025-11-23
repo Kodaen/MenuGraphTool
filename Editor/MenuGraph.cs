@@ -23,6 +23,7 @@ namespace MenuGraphTool.Editor
         }
         #endregion Static Methods
 
+        
         #region Methods
         public override void OnGraphChanged(GraphLogger infos)
         {
@@ -36,7 +37,7 @@ namespace MenuGraphTool.Editor
             switch (startNodes.Count)
             {
                 case 0:
-                    infos.LogError("Add a StartNode in your Menu Graph.", this);
+                    infos.LogWarning("Add a StartNode in your Menu Graph.", this);
                     break;
                 case >= 1:
                     {
