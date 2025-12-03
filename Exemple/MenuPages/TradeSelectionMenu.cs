@@ -4,23 +4,15 @@ namespace MenuGraphTool
 {
     public class TradeSelectionMenu : MenuPage
     {
+        const string TARGET_SELECTED = "TargetSeleted";
+
         [MenuInput]
         private Character Character;
 
+        [MenuOutput(TARGET_SELECTED)]
+        private Character _character1;
 
-        [MenuOutput(displayName: "TargetSeleted", "Character1", "Character2")]
-        private Action<Character, Character> _onCharacterSelected = null;
-        public event Action<Character, Character> OnCharacterSelected
-        {
-            add
-            {
-                _onCharacterSelected -= value;
-                _onCharacterSelected += value;
-            }
-            remove
-            {
-                _onCharacterSelected -= value;
-            }
-        }
+        [MenuOutput(TARGET_SELECTED)]
+        private Character _character2;
     }
 }

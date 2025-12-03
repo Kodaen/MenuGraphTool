@@ -1,26 +1,13 @@
-﻿using System;
-
-namespace MenuGraphTool
+﻿namespace MenuGraphTool
 {
     public class UseItemMenu : MenuPage
     {
+        const string TRADE = "Trade";
+
         [MenuInput]
         private int ItemID;
 
-
-        [MenuOutput(displayName: "Trade", "Character")]
-        private Action<Character> _onStartTrade = null;
-        public event Action<Character> OnStartTrade
-        {
-            add
-            {
-                _onStartTrade -= value;
-                _onStartTrade += value;
-            }
-            remove
-            {
-                _onStartTrade -= value;
-            }
-        }
+        [MenuOutput(TRADE)]
+        private Character _character;
     }
 }

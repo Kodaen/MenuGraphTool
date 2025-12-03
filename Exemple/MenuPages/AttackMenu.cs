@@ -1,8 +1,17 @@
-﻿namespace MenuGraphTool
+﻿using TMPro;
+using UnityEngine;
+
+namespace MenuGraphTool
 {
     public class AttackMenu : MenuPage
     {
-        [MenuInput]
-        private Character Character;
+        [SerializeField] private TextMeshProUGUI _textField;
+
+        [MenuInput] private Character Character;
+
+        private void Start()
+        {
+            _textField.text = Character.Name;
+        }
     }
 }

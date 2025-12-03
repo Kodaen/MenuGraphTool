@@ -1,25 +1,13 @@
-﻿using System;
-
-namespace MenuGraphTool
+﻿namespace MenuGraphTool
 {
     public class ItemSelectionMenu : MenuPage
     {
+        const string SELECTED_ITEM = "SelectedItem";
+
         [MenuInput]
         private Character Character;
 
-        [MenuOutput(displayName: "SelectedItem", "SelectedItemID")]
-        private Action<int> _onItemSelected = null;
-        public event Action<int> OnItemSelected
-        {
-            add
-            {
-                _onItemSelected -= value;
-                _onItemSelected += value;
-            }
-            remove
-            {
-                _onItemSelected -= value;
-            }
-        }
+        [MenuOutput(SELECTED_ITEM)]
+        private int _itemId;
     }
 }

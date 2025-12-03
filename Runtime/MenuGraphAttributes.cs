@@ -9,31 +9,30 @@ namespace MenuGraphTool
     {
 
         #region Fields
-        private string _displayName = default;
-        public string[] _outputParamsName;
+        private string _flowName = default;
+        public string _displayName = default;
         #endregion Fields
 
         #region Properties
+        public string FlowName
+        {
+            get { return _flowName; }
+            private set { _flowName = value; }
+        }
+
         public string DisplayName
         {
             get { return _displayName; }
             private set { _displayName = value; }
         }
-
-        public string[] OutputParamsName
-        {
-            get { return _outputParamsName; }
-            private set { _outputParamsName = value; }
-        } 
         #endregion Properties
 
         #region Constructor
-        public MenuOutputAttribute(string displayName = null, params string[] paramNames)
+        public MenuOutputAttribute(string flowName, string displayName = null)
         {
+            FlowName = flowName;
             DisplayName = displayName;
-            OutputParamsName = paramNames;
         } 
         #endregion Constructor
-
     }
 }
