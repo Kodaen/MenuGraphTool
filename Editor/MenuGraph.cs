@@ -31,7 +31,29 @@ namespace MenuGraphTool.Editor
             CheckGraphErrors(infos);
         }
 
-        void CheckGraphErrors(GraphLogger infos)
+        private void CheckGraphErrors(GraphLogger infos)
+        {
+            CheckStartNode(infos);
+            CheckInputPorts(infos);
+        }
+
+        private void CheckInputPorts(GraphLogger infos)
+        {
+            List<INode> nodes = GetNodes().ToList();
+            foreach (INode node in nodes)
+            {
+                IEnumerable<IPort> inputPorts = node.GetInputPorts();
+                foreach (IPort inputPort in inputPorts)
+                {
+                    if (inputPort.isConnected == false && !inputPort.dataType.IsPrimitive)
+                    {
+                        infos.LogWarning($"input node {inputPort.displayName} should be connected", node);
+                    }
+                }
+            }
+        }
+
+        private void CheckStartNode(GraphLogger infos)
         {
             List<StartNode> startNodes = GetNodes().OfType<StartNode>().ToList();
             switch (startNodes.Count)
@@ -41,7 +63,7 @@ namespace MenuGraphTool.Editor
                     break;
                 case >= 1:
                     {
-                        foreach (var startNode in startNodes.Skip(1))
+                        foreach (StartNode startNode in startNodes.Skip(1))
                         {
                             infos.LogWarning($"MenuGraphTool only supports one StartNode per graph. Only the first created one will be used.", startNode);
                         }

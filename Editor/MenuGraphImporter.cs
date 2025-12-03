@@ -67,9 +67,14 @@ namespace MenuGraphTool.Editor
 
                 foreach (IPort inputPort in inputPorts)
                 {
-                    var inputNodeID = nodeIdMap[inputPort.firstConnectedPort?.GetNode()];
+                    if (!inputPort.isConnected)
+                    {
+                        continue;
+                    }
+
+                    string inputNodeID = nodeIdMap[inputPort.firstConnectedPort.GetNode()];
                     // TODO : Don't use display name
-                    var inputParamName = inputPort.firstConnectedPort?.displayName;
+                    string inputParamName = inputPort.firstConnectedPort.displayName;
 
                     // TODO : Don't use display name
                     string paramName = inputPort.displayName;
