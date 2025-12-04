@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
@@ -86,26 +87,48 @@ namespace MenuGraphTool
                 BindingFlags flags = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
                 FieldInfo targetField = targetMenu.GetType().GetField(kvp.Key, flags);
 
-                object param = kvp.Value.isFromVariable ?
-                    RetrieveFieldFromGraphVariable(kvp) : RetrieveFieldFromNode(kvp);
+                object param;
+                switch (kvp.Value.InputOrigin)
+                {
+                    case InputOrigin.OtherNode:
+                        param = RetrieveFieldFromNode(kvp.Value);
+                        break;
+
+                    case InputOrigin.Variable:
+                        param = RetrieveFieldFromGraphVariable(kvp.Value);
+                        break;
+
+                    case InputOrigin.Field:
+                        param = RetrieveFieldFromField(kvp.Value, targetField.FieldType);
+                        break;
+
+                    default:
+                        Debug.LogError("Couldn't retrieve parameters for this menu.");
+                        return;
+                }
 
                 targetField.SetValue(targetMenu, param);
             }
         }
 
-        private object RetrieveFieldFromNode(KeyValuePair<string, InputInfos> kvp)
+        private object RetrieveFieldFromNode(InputInfos inputInfo)
         {
             BindingFlags flags = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
 
-            MenuPage sourceMenu = _nodeLookup[kvp.Value.InputNodeID].RuntimeMenuPage;
-            FieldInfo sourceField = sourceMenu.GetType().GetField(kvp.Value.InputParamName, flags);
+            MenuPage sourceMenu = _nodeLookup[inputInfo.InputNodeID].RuntimeMenuPage;
+            FieldInfo sourceField = sourceMenu.GetType().GetField(inputInfo.InputParamName, flags);
 
             return sourceField.GetValue(sourceMenu);
         }
 
-        private object RetrieveFieldFromGraphVariable(KeyValuePair<string, InputInfos> kvp)
+        private object RetrieveFieldFromGraphVariable(InputInfos inputInfo)
         {
-            return _runtimeGraph.AllVariables[kvp.Value.VariableIndex].Value;
+            return _runtimeGraph.AllVariables[inputInfo.VariableIndex].Value;
+        }
+
+        private object RetrieveFieldFromField(InputInfos inputInfo, Type type)
+        {
+            return Convert.ChangeType(inputInfo.rawVal, type);
         }
         #endregion Methods
 

@@ -74,27 +74,38 @@ namespace MenuGraphTool.Editor
 
                 foreach (IPort inputPort in inputPorts)
                 {
-                    if (!inputPort.isConnected)
-                    {
-                        continue;
-                    }
-
                     // TODO : Don't use display name
                     string paramName = inputPort.displayName;
                     InputInfos inputInfos = new();
 
-                    if (inputPort.firstConnectedPort.GetNode() is IVariableNode variable)
+                    if (inputPort.isConnected == false)
+                    {
+                        if (!inputPort.TryGetValue(out object value) || value == null)
+                        {
+                            continue;
+                        }
+
+                        if (!value.GetType().IsPrimitive)
+                        {
+                            continue;
+                        }
+
+                        inputInfos.InputOrigin = InputOrigin.Field;
+                        inputInfos.rawVal = value.ToString(); 
+                    }
+                    else if (inputPort.firstConnectedPort.GetNode() is IVariableNode variable)
                     {
                         if (!TryGetVariableIndex(variable.variable, out int index))
                         {
                             continue;
                         }
 
-                        inputInfos.isFromVariable = true;
+                        inputInfos.InputOrigin = InputOrigin.Variable;
                         inputInfos.VariableIndex = index;
                     }
                     else
                     {
+                        inputInfos.InputOrigin = InputOrigin.OtherNode;
                         string inputNodeID = nodeIdMap[inputPort.firstConnectedPort.GetNode()];
                         // TODO : Don't use display name
                         string inputParamName = inputPort.firstConnectedPort.displayName;
@@ -102,7 +113,6 @@ namespace MenuGraphTool.Editor
                         inputInfos.InputNodeID = inputNodeID;
                         inputInfos.InputParamName = inputParamName;
                     }
-
 
                     runtimeNode.InputParamOutputDict.Add(paramName, inputInfos);
                 }

@@ -31,20 +31,39 @@ namespace MenuGraphTool
     }
 
     [Serializable]
+    // TODO : Clean this class
     public class InputInfos
     {
+        public InputOrigin InputOrigin;
+        
+        // Other Node
         public string InputNodeID;
         public string InputParamName;
 
-        public bool isFromVariable= false;
+        // Variable
         public int VariableIndex = 0;
+
+        // Field
+        public string rawVal;
+    }
+
+    //public class NodeInputInfos : InputInfos
+    //public class VariableInputInfos : InputInfos
+    //public class FieldInputInfos : InputInfos
+
+    public enum InputOrigin
+    {
+            Field = 0,
+            Variable = 1,
+            OtherNode = 2,
     }
 
     // TODO : Move this elsewhere
     [Serializable]
     public class SerializedObject
     {
-        public object Value;
+        [SerializeReference]
+        public System.Object Value;
     }
 
     // TODO : Move this elsewhere

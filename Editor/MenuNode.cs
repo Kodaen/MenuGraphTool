@@ -19,11 +19,12 @@ namespace MenuGraphTool.Editor
         #endregion Fields
 
         #region Methods
+        
         protected override void OnDefinePorts(IPortDefinitionContext context)
         {
             _outputCount = 0;
             _inputCount = 0;
-
+            
             // Add default input port
             context.AddInputPort(_inputCount.ToString())
                 .WithDataType<ExecutionFlow>()
@@ -44,6 +45,8 @@ namespace MenuGraphTool.Editor
             AddInputPorts(context, fields);
             AddOutputPorts(context, fields);
         }
+
+        
 
         private void AddOutputPorts(IPortDefinitionContext context, FieldInfo[] fields)
         {
@@ -112,15 +115,11 @@ namespace MenuGraphTool.Editor
             context.AddOption<MenuPage>(MENU_OPTION_ID);
         }
         #endregion Callbacks
-
     }
 
     [Serializable]
     internal class StartNode : Node
     {
-        #region Constants
-        #endregion Constants
-
         #region Methods
         protected override void OnDefinePorts(IPortDefinitionContext context)
         {
