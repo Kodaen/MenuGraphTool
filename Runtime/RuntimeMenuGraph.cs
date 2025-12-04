@@ -9,13 +9,14 @@ namespace MenuGraphTool
     {
         public string EntryNodeID;
         public List<RuntimeMenuNode> AllNodes = new();
+        public List<SerializedObject> AllVariables = new();
     }
 
     [Serializable]
     public class RuntimeMenuNode
     {
         // Reference to the menu, to get the runtime values needed to open the menus
-        public MenuPage MenuPagePrefab; 
+        public MenuPage MenuPagePrefab;
 
         public string NodeID;
 
@@ -26,7 +27,7 @@ namespace MenuGraphTool
         public SerializableDictionary<string, InputInfos> InputParamOutputDict = new();
 
         // Reference to the menu, to get the runtime values needed to open the menus
-        public MenuPage RuntimeMenuPage; 
+        public MenuPage RuntimeMenuPage;
     }
 
     [Serializable]
@@ -34,6 +35,16 @@ namespace MenuGraphTool
     {
         public string InputNodeID;
         public string InputParamName;
+
+        public bool isFromVariable= false;
+        public int VariableIndex = 0;
+    }
+
+    // TODO : Move this elsewhere
+    [Serializable]
+    public class SerializedObject
+    {
+        public object Value;
     }
 
     // TODO : Move this elsewhere

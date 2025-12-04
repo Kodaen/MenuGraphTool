@@ -7,63 +7,59 @@ namespace MenuGraphTool
     public class MenuDirector : MonoBehaviour
     {
         #region Fields
-        [SerializeField] private RuntimeMenuGraph RuntimeGraph;
+        [SerializeField] private RuntimeMenuGraph _runtimeGraph;
 
         private Dictionary<string, RuntimeMenuNode> _nodeLookup = new();
         private RuntimeMenuNode _currentNode;
-        private MenuPage _currentMenu; 
+        private MenuPage _currentMenu;
         #endregion Fields
 
-
-        // TEMP : Opening the 
+        // TEMP : Opening the graph should be done by calling the method OpenMenuGraph
         #region Methods
         private void Start()
         {
+            // TEMP : Exemple Character
+            Character chara = new() { Name = "bonjour" };
+            OpenMenuGraph(_runtimeGraph, chara);
+        }
+
+        public void OpenMenuGraph(RuntimeMenuGraph RuntimeGraph, params object[] variables)
+        {
+            if (string.IsNullOrEmpty(RuntimeGraph.EntryNodeID))
+            {
+                Debug.LogError($"{RuntimeGraph.name} doesn't have a start node");
+                return;
+            }
+
             foreach (RuntimeMenuNode node in RuntimeGraph.AllNodes)
             {
                 _nodeLookup[node.NodeID] = node;
             }
-
-            if (!string.IsNullOrEmpty(RuntimeGraph.EntryNodeID))
+            
+            // TODO : Prone to mistakes and errors
+            // Set Variables
+            for (int i = 0; i < variables.Length && i < RuntimeGraph.AllVariables.Count; i++)
             {
-                // TODO : We need to fill the BlackBoard before opening it
-                // Or pass the parameters for the graph
-                OpenMenu(RuntimeGraph.EntryNodeID);
+                RuntimeGraph.AllVariables[i].Value = variables[i];
             }
-            else
-            {
 
-            }
+            OpenMenu(RuntimeGraph.EntryNodeID);
         }
 
-
-        private void OpenMenu(string id, string actionName = null)
+        private void OpenMenu(string id)
         {
             // TODO : Hiding or not the previous menu should be an option
             DisablePreviousMenu();
             InstanciateNewMenu(id);
-            // TODO : No need of previousMenu, we have to get the Id
-            PassParameterToMenu(_currentMenu, _currentNode, actionName);
+            PassParameterToMenu(_currentMenu, _currentNode);
         }
 
-
-        private void PassParameterToMenu(MenuPage targetMenu, RuntimeMenuNode targetNode, string actionName)
+        private void DisablePreviousMenu()
         {
-            if (string.IsNullOrEmpty(actionName))
+            if (_currentMenu)
             {
-                return;
-            }
-
-            foreach (KeyValuePair<string, InputInfos> kvp in targetNode.InputParamOutputDict)
-            {
-                BindingFlags flags = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
-
-                FieldInfo targetField = targetMenu.GetType().GetField(kvp.Key, flags);
-
-                MenuPage sourceMenu = _nodeLookup[kvp.Value.InputNodeID].RuntimeMenuPage;
-                FieldInfo sourceField = sourceMenu.GetType().GetField(kvp.Value.InputParamName, flags);
-
-                targetField.SetValue(targetMenu, sourceField.GetValue(sourceMenu));
+                _currentMenu.OnNextMenu -= OnNextMenu;
+                _currentMenu.gameObject.SetActive(false);
             }
         }
 
@@ -75,22 +71,41 @@ namespace MenuGraphTool
             _currentMenu.OnNextMenu += OnNextMenu;
         }
 
-        private void DisablePreviousMenu()
+        private void PassParameterToMenu(MenuPage targetMenu, RuntimeMenuNode targetNode)
         {
-            if (_currentMenu)
+            foreach (KeyValuePair<string, InputInfos> kvp in targetNode.InputParamOutputDict)
             {
-                _currentMenu.OnNextMenu -= OnNextMenu;
-                _currentMenu.gameObject.SetActive(false);
-            }
-        } 
-        #endregion Methods
+                BindingFlags flags = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
+                FieldInfo targetField = targetMenu.GetType().GetField(kvp.Key, flags);
 
+                object param = kvp.Value.isFromVariable ?
+                    RetrieveFieldFromGraphVariable(kvp) : RetrieveFieldFromNode(kvp);
+
+                targetField.SetValue(targetMenu, param);
+            }
+        }
+
+        private object RetrieveFieldFromNode(KeyValuePair<string, InputInfos> kvp)
+        {
+            BindingFlags flags = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
+
+            MenuPage sourceMenu = _nodeLookup[kvp.Value.InputNodeID].RuntimeMenuPage;
+            FieldInfo sourceField = sourceMenu.GetType().GetField(kvp.Value.InputParamName, flags);
+
+            return sourceField.GetValue(sourceMenu);
+        }
+
+        private object RetrieveFieldFromGraphVariable(KeyValuePair<string, InputInfos> kvp)
+        {
+            return _runtimeGraph.AllVariables[kvp.Value.VariableIndex].Value;
+        }
+        #endregion Methods
 
         #region Callbacks
         private void OnNextMenu(string actionName)
         {
-            OpenMenu(_nodeLookup[_currentNode.NextNodeDict[actionName]]?.NodeID, actionName);
-        } 
+            OpenMenu(_nodeLookup[_currentNode.NextNodeDict[actionName]]?.NodeID);
+        }
         #endregion Callbacks
 
     }

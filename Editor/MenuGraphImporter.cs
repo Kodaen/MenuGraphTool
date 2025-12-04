@@ -10,18 +10,20 @@ namespace MenuGraphTool.Editor
     [ScriptedImporter(1, MenuGraph.ASSET_EXTENSION)]
     public class MenuGraphImporter : ScriptedImporter
     {
+        private MenuGraph _editorGraph;
+
         public override void OnImportAsset(AssetImportContext ctx)
         {
-            MenuGraph editorGraph = GraphDatabase.LoadGraphForImporter<MenuGraph>(ctx.assetPath);
+            _editorGraph = GraphDatabase.LoadGraphForImporter<MenuGraph>(ctx.assetPath);
             RuntimeMenuGraph runtimeGraph = ScriptableObject.CreateInstance<RuntimeMenuGraph>();
             Dictionary<INode, string> nodeIdMap = new();
 
-            foreach (INode node in editorGraph.GetNodes())
+            foreach (INode node in _editorGraph.GetNodes())
             {
                 nodeIdMap[node] = Guid.NewGuid().ToString();
             }
 
-            StartNode startNode = editorGraph.GetNodes().OfType<StartNode>().FirstOrDefault();
+            StartNode startNode = _editorGraph.GetNodes().OfType<StartNode>().FirstOrDefault();
             if (startNode == null)
             {
                 return;
@@ -33,9 +35,14 @@ namespace MenuGraphTool.Editor
                 return;
             }
 
+            foreach (IVariable variable in _editorGraph.GetVariables())
+            {
+                runtimeGraph.AllVariables.Add(new());
+            }
+
             runtimeGraph.EntryNodeID = nodeIdMap[entryPort.GetNode()];
 
-            foreach (INode node in editorGraph.GetNodes())
+            foreach (INode node in _editorGraph.GetNodes())
             {
                 if (node is StartNode)
                 {
@@ -72,17 +79,31 @@ namespace MenuGraphTool.Editor
                         continue;
                     }
 
-                    string inputNodeID = nodeIdMap[inputPort.firstConnectedPort.GetNode()];
-                    // TODO : Don't use display name
-                    string inputParamName = inputPort.firstConnectedPort.displayName;
-
                     // TODO : Don't use display name
                     string paramName = inputPort.displayName;
-                    InputInfos inputInfos = new()
+                    InputInfos inputInfos = new();
+
+                    if (inputPort.firstConnectedPort.GetNode() is IVariableNode variable)
                     {
-                        InputNodeID = inputNodeID,
-                        InputParamName = inputParamName
-                    };
+                        if (!TryGetVariableIndex(variable.variable, out int index))
+                        {
+                            continue;
+                        }
+
+                        inputInfos.isFromVariable = true;
+                        inputInfos.VariableIndex = index;
+                    }
+                    else
+                    {
+                        string inputNodeID = nodeIdMap[inputPort.firstConnectedPort.GetNode()];
+                        // TODO : Don't use display name
+                        string inputParamName = inputPort.firstConnectedPort.displayName;
+
+                        inputInfos.InputNodeID = inputNodeID;
+                        inputInfos.InputParamName = inputParamName;
+                    }
+
+
                     runtimeNode.InputParamOutputDict.Add(paramName, inputInfos);
                 }
             }
@@ -100,6 +121,22 @@ namespace MenuGraphTool.Editor
                 // TODO : Don't use display name
                 runtimeNode.NextNodeDict.Add(flowPort.displayName, nodeIdMap[flowPort.firstConnectedPort.GetNode()]);
             }
+        }
+
+        private bool TryGetVariableIndex(IVariable variable, out int index)
+        {
+            index = -1;
+
+            int count = _editorGraph.GetVariables().Count();
+            for (int i = 0; i < count; i++)
+            {
+                if (variable == _editorGraph.GetVariable(i))
+                {
+                    index = i;
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }
