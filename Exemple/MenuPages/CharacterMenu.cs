@@ -7,15 +7,9 @@
         const string TRADE = "Trade";
 
         [MenuInput]
-        private Character Character;
+        private Character _inCharacter;
 
-        [MenuOutput(ATTACK)]
-        private Character _character_attack;
-
-        [MenuOutput(ITEMS)]
-        private Character _character_items;
-
-        [MenuOutput(TRADE)]
-        private Character _character_trade;
+        [MenuOutput(ATTACK), MenuOutput(ITEMS), MenuOutput(TRADE)]
+        private Character _character;
     }
 }

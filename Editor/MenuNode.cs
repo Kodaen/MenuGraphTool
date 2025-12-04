@@ -18,7 +18,6 @@ namespace MenuGraphTool.Editor
         private int _inputCount = 0;
         #endregion Fields
 
-
         #region Methods
         protected override void OnDefinePorts(IPortDefinitionContext context)
         {
@@ -54,18 +53,16 @@ namespace MenuGraphTool.Editor
             {
                 FieldInfo field = fields[i];
 
-                MenuOutputAttribute menuOutputAttribute = field.GetCustomAttribute<MenuOutputAttribute>();
-                if (menuOutputAttribute == null)
+                IEnumerable<MenuOutputAttribute> menuOutputAttributes = field.GetCustomAttributes<MenuOutputAttribute>();
+                foreach (MenuOutputAttribute menuOutputAttribute in menuOutputAttributes)
                 {
-                    continue;
-                }
+                    if (!outputDict.ContainsKey(menuOutputAttribute.FlowName))
+                    {
+                        outputDict[menuOutputAttribute.FlowName] = new();
+                    }
 
-                if (!outputDict.ContainsKey(menuOutputAttribute.FlowName))
-                {
-                    outputDict[menuOutputAttribute.FlowName] = new();
+                    outputDict[menuOutputAttribute.FlowName].Add(field);
                 }
-
-                outputDict[menuOutputAttribute.FlowName].Add(field);
             }
 
             foreach (string flowName in outputDict.Keys)
