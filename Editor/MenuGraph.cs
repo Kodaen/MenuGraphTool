@@ -23,7 +23,6 @@ namespace MenuGraphTool.Editor
         }
         #endregion Static Methods
 
-        
         #region Methods
         public override void OnGraphChanged(GraphLogger infos)
         {

@@ -23,6 +23,8 @@ namespace MenuGraphTool
             OpenMenuGraph(_runtimeGraph, chara);
         }
 
+        // TODO : Using params object[] is not good practice, as if we add a new variable in the graph, then errors will appear in
+        // runtime when trying to open the graph
         public void OpenMenuGraph(RuntimeMenuGraph RuntimeGraph, params object[] variables)
         {
             if (string.IsNullOrEmpty(RuntimeGraph.EntryNodeID))
@@ -35,9 +37,15 @@ namespace MenuGraphTool
             {
                 _nodeLookup[node.NodeID] = node;
             }
-            
+
             // TODO : Prone to mistakes and errors
             // Set Variables
+            if (variables.Length != RuntimeGraph.AllVariables.Count)
+            {
+                Debug.LogWarning($"The number of variables to set for the MenuGraph {RuntimeGraph.name} doesn't correspond the number of parameters given to open it." +
+                    $"Some errors may occur when navigating in the menus.");
+            }
+
             for (int i = 0; i < variables.Length && i < RuntimeGraph.AllVariables.Count; i++)
             {
                 RuntimeGraph.AllVariables[i].Value = variables[i];
