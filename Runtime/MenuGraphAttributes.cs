@@ -2,12 +2,13 @@
 
 namespace MenuGraphTool
 {
+    [AttributeUsage(AttributeTargets.Field)]
     public class MenuInputAttribute : Attribute
     { }
 
+    [AttributeUsage(AttributeTargets.Field)]
     public class MenuOutputAttribute : Attribute
     {
-
         #region Fields
         private string _flowName = default;
         public string _displayName = default;
