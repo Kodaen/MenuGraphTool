@@ -17,6 +17,7 @@ namespace MenuGraphTool.Editor
         // VisualElements
         private VisualElement _root = new();
         private VisualElement _snapshotPreview;
+        private VisualElement _errorScreen;
         #endregion Fields
 
         public override VisualElement CreatePropertyGUI(SerializedProperty property)
@@ -41,6 +42,7 @@ namespace MenuGraphTool.Editor
             }
             _menuPage = menuPreview.MenuPage;
             _snapshotPreview = _root.Query<VisualElement>("SnapshotPreview");
+            _errorScreen = _root.Query<VisualElement>("ErrorScreen");
         }
 
         // This was necessary as there is no callback when the property changes.
@@ -83,10 +85,11 @@ namespace MenuGraphTool.Editor
             if (canvas == null)
             {
                 // TODO : Display error instead of logging it.
-                Debug.LogWarning($"Snapshot couldn't be loaded for {_menuPage.name}.");
                 _snapshotPreview.style.backgroundImage = new();
+                _errorScreen.style.display = DisplayStyle.Flex;
                 return;
             }
+            _errorScreen.style.display = DisplayStyle.None;
 
             CanvasSnapshotMaker canvasSnapshotMaker = new CanvasSnapshotMaker(canvas);
             Texture2D texture = canvasSnapshotMaker.TakeSnapshot();

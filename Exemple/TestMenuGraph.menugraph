@@ -19,69 +19,6 @@ MonoBehaviour:
     RefIds:
     - rid: -2
       type: {class: , ns: , asm: }
-    - rid: 617746396550267024
-      type: {class: VariableDeclarationModel, ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
-      data:
-        m_Guid:
-          m_Value0: 12680322313416206887
-          m_Value1: 9858621566834558559
-        m_HashGuid:
-          serializedVersion: 2
-          Hash: 27eaa1f8f58df9af5fc62df214dcd088
-        m_Version: 2
-        m_Name: Character
-        m_UniqueId: 
-        m_DataType:
-          m_Identification: MenuGraphTool.Character, MenuGraphTool, Version=0.0.0.0,
-            Culture=neutral, PublicKeyToken=null
-        m_IsExposed: 0
-        m_Scope: 0
-        m_ShowOnInspectorOnly: 0
-        m_Tooltip: 
-        m_InitializationValue:
-          rid: 617746396550267025
-        m_Modifiers: 0
-        m_VariableFlags: 0
-    - rid: 617746396550267025
-      type: {class: 'Constant`1[[MenuGraphTool.Character, MenuGraphTool]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
-      data: 
-    - rid: 617746442276831344
-      type: {class: VariableNodeModelImp, ns: Unity.GraphToolkit.Editor.Implementation, asm: Unity.GraphToolkit.Editor}
-      data:
-        m_Guid:
-          m_Value0: 5829586389110274760
-          m_Value1: 9612929897248458342
-        m_HashGuid:
-          serializedVersion: 2
-          Hash: c8ba5e36efd9e65066063a60cffc6785
-        m_Version: 2
-        m_Position: {x: 831.30115, y: 655.701}
-        m_Title: Character
-        m_Tooltip: 
-        m_NodePreviewModel:
-          rid: -2
-        m_State: 0
-        m_InputConstantsById:
-          m_KeyList: []
-          m_ValueList: []
-        m_InputPortInfos:
-          expandedPortsById:
-            m_KeyList: []
-            m_ValueList: 
-        m_OutputPortInfos:
-          expandedPortsById:
-            m_KeyList: []
-            m_ValueList: 
-        m_Collapsed: 0
-        m_CurrentModeIndex: 0
-        m_ElementColor:
-          m_Color: {r: 0, g: 0, b: 0, a: 0}
-          m_HasUserColor: 0
-        m_DeclarationModel:
-          rid: 617746396550267024
-        m_DeclarationModelHashGuid:
-          serializedVersion: 2
-          Hash: 27eaa1f8f58df9af5fc62df214dcd088
     - rid: 617746442276831416
       type: {class: UserNodeModelImp, ns: Unity.GraphToolkit.Editor.Implementation, asm: Unity.GraphToolkit.Editor}
       data:
@@ -191,13 +128,11 @@ MonoBehaviour:
           - __option_menu_preview
           - 0
           - 1
-          - 2
           m_ValueList:
           - rid: 617746442276831732
           - rid: 617746442276831733
           - rid: 617746442276831734
           - rid: 617746442276831736
-          - rid: 617746442276831739
         m_InputPortInfos:
           expandedPortsById:
             m_KeyList: []
@@ -248,12 +183,12 @@ MonoBehaviour:
     - rid: 617746442276831732
       type: {class: 'Constant`1[[MenuGraphTool.MenuPage, MenuGraphTool]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
       data:
-        m_Value: {fileID: 6078941769461429494, guid: 14e322c5385e58246ae51386d4e94548, type: 3}
+        m_Value: {fileID: 6780891343267609537, guid: 65401b894f429c44ca4e7861984677a5, type: 3}
     - rid: 617746442276831733
       type: {class: 'Constant`1[[MenuGraphTool.Editor.MenuPreview, MenuGraphTool.Editor]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
       data:
         m_Value:
-          MenuPage: {fileID: 6078941769461429494, guid: 14e322c5385e58246ae51386d4e94548, type: 3}
+          MenuPage: {fileID: 6780891343267609537, guid: 65401b894f429c44ca4e7861984677a5, type: 3}
     - rid: 617746442276831734
       type: {class: 'Constant`1[[MenuGraphTool.Editor.ExecutionFlow, MenuGraphTool.Editor]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
       data: 
@@ -295,42 +230,6 @@ MonoBehaviour:
           m_PortDirection: 1
           m_PortOrientation: 0
           m_Title: _character
-    - rid: 617746442276831739
-      type: {class: 'Constant`1[[System.Int32, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
-      data:
-        m_Value: 0
-    - rid: 617746442276831740
-      type: {class: WireModel, ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
-      data:
-        m_Guid:
-          m_Value0: 13491901952180757525
-          m_Value1: 8262763984595286950
-        m_HashGuid:
-          serializedVersion: 2
-          Hash: 152422a457dd3cbba67bb1e4103cab72
-        m_Version: 2
-        m_FromPortReference:
-          m_NodeModelGuid:
-            m_Value0: 14581645065431249246
-            m_Value1: 1806393598760214671
-          m_NodeModelHashGuid:
-            serializedVersion: 2
-            Hash: 5e71db1dee685cca8f60a44a68991119
-          m_UniqueId: 2
-          m_PortDirection: 2
-          m_PortOrientation: 0
-          m_Title: _itemId
-        m_ToPortReference:
-          m_NodeModelGuid:
-            m_Value0: 16554873096896755474
-            m_Value1: 9467990276750700024
-          m_NodeModelHashGuid:
-            serializedVersion: 2
-            Hash: 12b733c25eb9bee5f8ed933efe0e6583
-          m_UniqueId: 2
-          m_PortDirection: 1
-          m_PortOrientation: 0
-          m_Title: _num
     - rid: 952603111946190917
       type: {class: GraphModelImp, ns: Unity.GraphToolkit.Editor.Implementation, asm: Unity.GraphToolkit.Editor}
       data:
@@ -343,18 +242,15 @@ MonoBehaviour:
         m_Name: 
         m_GraphNodeModels:
         - rid: 952603111946190947
-        - rid: 617746442276831344
         - rid: 617746442276831416
         - rid: 617746442276831730
         m_GraphWireModels:
         - rid: 617746442276831430
         - rid: 617746442276831731
         - rid: 617746442276831738
-        - rid: 617746442276831740
         m_GraphStickyNoteModels: []
         m_GraphPlacematModels: []
-        m_GraphVariableModels:
-        - rid: 617746396550267024
+        m_GraphVariableModels: []
         m_GraphPortalModels: []
         m_SectionModels:
         - rid: 952603111946190918
@@ -363,8 +259,8 @@ MonoBehaviour:
           serializedVersion: 2
           x: 540.8
           y: 317.6
-          width: 1316
-          height: 371.99997
+          width: 1355.2
+          height: 391.20004
         m_GraphElementMetaData:
         - m_Guid:
             m_Value0: 2035179921029399098
@@ -375,29 +271,13 @@ MonoBehaviour:
           m_Category: 0
           m_Index: 0
         - m_Guid:
-            m_Value0: 12680322313416206887
-            m_Value1: 9858621566834558559
-          m_HashGuid:
-            serializedVersion: 2
-            Hash: 27eaa1f8f58df9af5fc62df214dcd088
-          m_Category: 1
-          m_Index: 0
-        - m_Guid:
-            m_Value0: 5829586389110274760
-            m_Value1: 9612929897248458342
-          m_HashGuid:
-            serializedVersion: 2
-            Hash: c8ba5e36efd9e65066063a60cffc6785
-          m_Category: 0
-          m_Index: 1
-        - m_Guid:
             m_Value0: 14581645065431249246
             m_Value1: 1806393598760214671
           m_HashGuid:
             serializedVersion: 2
             Hash: 5e71db1dee685cca8f60a44a68991119
           m_Category: 0
-          m_Index: 2
+          m_Index: 1
         - m_Guid:
             m_Value0: 14312719230261549969
             m_Value1: 8182044453524369294
@@ -413,7 +293,7 @@ MonoBehaviour:
             serializedVersion: 2
             Hash: 12b733c25eb9bee5f8ed933efe0e6583
           m_Category: 0
-          m_Index: 3
+          m_Index: 2
         - m_Guid:
             m_Value0: 15727925125538619318
             m_Value1: 11559509076498985460
@@ -430,14 +310,6 @@ MonoBehaviour:
             Hash: b5dbbc503f82d387ea1b89d9afc08bef
           m_Category: 2
           m_Index: 2
-        - m_Guid:
-            m_Value0: 13491901952180757525
-            m_Value1: 8262763984595286950
-          m_HashGuid:
-            serializedVersion: 2
-            Hash: 152422a457dd3cbba67bb1e4103cab72
-          m_Category: 2
-          m_Index: 3
         m_EntryPoint:
           rid: 952603111946190947
         m_Graph:
@@ -452,8 +324,7 @@ MonoBehaviour:
           serializedVersion: 2
           Hash: 58f1e5771beac110859bd57cb90d551e
         m_Version: 2
-        m_Items:
-        - rid: 617746396550267024
+        m_Items: []
         m_Title: 
     - rid: 952603111946190919
       type: {class: MenuGraph, ns: MenuGraphTool.Editor, asm: MenuGraphTool.Editor}
