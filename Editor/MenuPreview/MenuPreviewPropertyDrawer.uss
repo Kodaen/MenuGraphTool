@@ -1,0 +1,17 @@
+VisualElement {
+}
+
+#VisualElement > #Preview {
+    background-color: var(--unity-colors-default-background);
+}
+
+#VisualElement > #ObjectField > .unity-object-field__label {
+    width: 80px;
+    flex-shrink: 0;
+    max-width: 80px;
+    min-width: 80px;
+}
+
+#VisualElement > #SnapshotPreview {
+    background-color: var(--unity-colors-default-background);
+}

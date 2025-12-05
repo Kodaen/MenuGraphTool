@@ -11,6 +11,7 @@ namespace MenuGraphTool.Editor
         #region Fields
         #region Constants
         public const string MENU_OPTION_ID = "menu";
+        public const string MENU_PREVIEW_ID = "menu_preview";
         private const BindingFlags BINDING_FLAGS = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
         #endregion Constants
 
@@ -19,35 +20,6 @@ namespace MenuGraphTool.Editor
         #endregion Fields
 
         #region Methods
-        
-        protected override void OnDefinePorts(IPortDefinitionContext context)
-        {
-            _outputCount = 0;
-            _inputCount = 0;
-            
-            // Add default input port
-            context.AddInputPort(_inputCount.ToString())
-                .WithDataType<ExecutionFlow>()
-                .WithDisplayName("")
-                .WithConnectorUI(PortConnectorUI.Arrowhead)
-                .Build();
-            _inputCount++;
-
-            // Add ports depending on the selected menu page
-            INodeOption option = GetNodeOptionByName(MENU_OPTION_ID);
-            if (option.TryGetValue(out MenuPage menu) == false || menu == null)
-            {
-                return;
-            }
-
-            FieldInfo[] fields = menu.GetType().GetFields(BINDING_FLAGS);
-
-            AddInputPorts(context, fields);
-            AddOutputPorts(context, fields);
-        }
-
-        
-
         private void AddOutputPorts(IPortDefinitionContext context, FieldInfo[] fields)
         {
             Dictionary<string, List<FieldInfo>> outputDict = new();
@@ -108,11 +80,49 @@ namespace MenuGraphTool.Editor
             }
         }
 
+        private void AddMenuPreview(MenuPage menu)
+        {
+            INodeOption option2 = GetNodeOptionByName(MENU_PREVIEW_ID);
+            if (option2.TryGetValue(out MenuPreview menuPreview) == false || menu == null)
+            {
+                return;
+            }
+            menuPreview.MenuPage = menu;
+        }
         #endregion Methods
         #region Callbacks
         protected override void OnDefineOptions(IOptionDefinitionContext context)
         {
             context.AddOption<MenuPage>(MENU_OPTION_ID);
+            context.AddOption<MenuPreview>(MENU_PREVIEW_ID);
+        }
+
+        protected override void OnDefinePorts(IPortDefinitionContext context)
+        {
+            _outputCount = 0;
+            _inputCount = 0;
+
+            // Add default input port
+            context.AddInputPort(_inputCount.ToString())
+                .WithDataType<ExecutionFlow>()
+                .WithDisplayName("")
+                .WithConnectorUI(PortConnectorUI.Arrowhead)
+                .Build();
+            _inputCount++;
+
+            // Add ports depending on the selected menu page
+            INodeOption option = GetNodeOptionByName(MENU_OPTION_ID);
+            if (option.TryGetValue(out MenuPage menu) == false || menu == null)
+            {
+                return;
+            }
+
+            AddMenuPreview(menu);
+
+            FieldInfo[] fields = menu.GetType().GetFields(BINDING_FLAGS);
+
+            AddInputPorts(context, fields);
+            AddOutputPorts(context, fields);
         }
         #endregion Callbacks
     }

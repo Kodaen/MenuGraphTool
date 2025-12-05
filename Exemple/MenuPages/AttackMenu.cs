@@ -7,12 +7,12 @@ namespace MenuGraphTool
     {
         [SerializeField] private TextMeshProUGUI _textField;
 
-        [MenuInput] private Character Character;
-        [MenuInput] private float Num;
+        [MenuInput] private Character _character;
+        [MenuInput] private int _num;
 
         private void Start()
         {
-            _textField.text = $"{Character.Name} {Num.ToString()}";
+            _textField.text = $"{_character.Name} {_num.ToString()}";
         }
     }
 }
