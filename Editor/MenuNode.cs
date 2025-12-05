@@ -24,12 +24,28 @@ namespace MenuGraphTool.Editor
         {
             Dictionary<string, List<FieldInfo>> outputDict = new();
 
+            if (fields.Length == 0)
+            {
+                return;
+            }
+
+            // Register parameterless flows in the dict
+            IEnumerable<MenuOutputAttribute> menuOutputAttributes = fields[0].DeclaringType.GetCustomAttributes<MenuOutputAttribute>();
+            foreach (MenuOutputAttribute flow in menuOutputAttributes)
+            {
+                if (!outputDict.ContainsKey(flow.FlowName))
+                {
+                    outputDict[flow.FlowName] = new();
+                }
+            }
+
+            // Register flows with parameters in the dict
             for (int i = 0; i < fields.Length; i++)
             {
                 FieldInfo field = fields[i];
 
-                IEnumerable<MenuOutputAttribute> menuOutputAttributes = field.GetCustomAttributes<MenuOutputAttribute>();
-                foreach (MenuOutputAttribute menuOutputAttribute in menuOutputAttributes)
+                IEnumerable<MenuOutputAttribute> menuOutputWithParametersAttributes = field.GetCustomAttributes<MenuOutputAttribute>();
+                foreach (MenuOutputAttribute menuOutputAttribute in menuOutputWithParametersAttributes)
                 {
                     if (!outputDict.ContainsKey(menuOutputAttribute.FlowName))
                     {
@@ -40,6 +56,7 @@ namespace MenuGraphTool.Editor
                 }
             }
 
+            // Create the ports based on the dictionnary
             foreach (string flowName in outputDict.Keys)
             {
                 context.AddOutputPort(_outputCount.ToString())
@@ -120,7 +137,7 @@ namespace MenuGraphTool.Editor
             AddMenuPreview(menu);
 
             FieldInfo[] fields = menu.GetType().GetFields(BINDING_FLAGS);
-
+       
             AddInputPorts(context, fields);
             AddOutputPorts(context, fields);
         }

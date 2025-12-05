@@ -6,7 +6,7 @@ namespace MenuGraphTool
     public class MenuInputAttribute : Attribute
     { }
 
-    [AttributeUsage(AttributeTargets.Field, AllowMultiple = true)]
+    [AttributeUsage(AttributeTargets.Field | AttributeTargets.Class, AllowMultiple = true)]
     public class MenuOutputAttribute : Attribute
     {
         #region Fields

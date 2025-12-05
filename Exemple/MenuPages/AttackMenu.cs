@@ -3,12 +3,16 @@ using UnityEngine;
 
 namespace MenuGraphTool
 {
+    [MenuOutput("Parameterless")]
     public class AttackMenu : MenuPage
     {
         [SerializeField] private TextMeshProUGUI _textField;
 
         [MenuInput] private Character _character;
         [MenuInput] private int _num;
+
+        [MenuOutput("Parameterless")]
+        private int _num2;
 
         private void Start()
         {
