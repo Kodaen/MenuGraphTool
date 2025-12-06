@@ -84,7 +84,6 @@ namespace MenuGraphTool.Editor
 
             if (canvas == null)
             {
-                // TODO : Display error instead of logging it.
                 _snapshotPreview.style.backgroundImage = new();
                 _errorScreen.style.display = DisplayStyle.Flex;
                 return;

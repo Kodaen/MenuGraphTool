@@ -2,21 +2,36 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
+using UnityEngine.InputSystem;
+
 
 namespace MenuGraphTool
 {
     public class MenuDirector : MonoBehaviour
     {
         #region Fields
+        // Graph
         [SerializeField] private RuntimeMenuGraph _runtimeGraph;
-
         private Dictionary<string, RuntimeMenuNode> _nodeLookup = new();
         private RuntimeMenuNode _currentNode;
+
+        // Runtime Menus
         private MenuPage _currentMenu;
+
+        [SerializeField] private InputActionReference _backActionReference = null;
         #endregion Fields
 
-        // TEMP : Opening the graph should be done by calling the method OpenMenuGraph
         #region Methods
+        private void Awake()
+        {
+            // TODO : Make this class a singleton, so it's easier to open menus, and to disable inputs
+            // TODO : Depending on the menu opened, it shall automatically detect to desiable the back action if
+            // the parent menu had it disabled when opening its submenu, and it is openned back
+            _backActionReference.action.Enable();
+            _backActionReference.action.performed += OnBackPerformed;
+        }
+
+        // TEMP : Opening the graph should be done by calling the method OpenMenuGraph
         private void Start()
         {
             // TEMP : Exemple Character
@@ -24,6 +39,7 @@ namespace MenuGraphTool
             OpenMenuGraph(_runtimeGraph, chara);
         }
 
+        #region Opening Menus
         // TODO : Using params object[] is not good practice, as if we add a new variable in the graph, then errors will appear in
         // runtime when trying to open the graph
         public void OpenMenuGraph(RuntimeMenuGraph RuntimeGraph, params object[] variables)
@@ -52,18 +68,54 @@ namespace MenuGraphTool
                 RuntimeGraph.AllVariables[i].Value = variables[i];
             }
 
-            OpenMenu(RuntimeGraph.EntryNodeID);
+            TryOpenMenu(RuntimeGraph.EntryNodeID);
         }
 
-        private void OpenMenu(string id)
+        public void CloseMenuCurrentMenuGraph()
         {
-            // TODO : Hiding or not the previous menu should be an option
-            DisablePreviousMenu();
-            InstanciateNewMenu(id);
-            PassParameterToMenu(_currentMenu, _currentNode);
+            // TODO : Invoke an event to tell the caller of the menu graph that it is closed
         }
 
-        private void DisablePreviousMenu()
+        private bool TryOpenMenu(string id)
+        {
+            if (!_nodeLookup.ContainsKey(id))
+            {
+                Debug.LogWarning("Couldn't find menu to open.");
+                return false;
+            }
+            // TODO : Hiding or not the previous menu should be an option
+            DisableCurrentMenu();
+            MenuPage menuPage = InstanciateMenu(id);
+            SetCurrentMenu(menuPage);
+            PassParameterToMenu(_currentMenu, _currentNode);
+            return true;
+        }
+
+        private bool TryOpenParentMenu()
+        {
+            DestroyCurrentMenu();
+
+            MenuPage parentMenuPage = _currentMenu.Parent;
+            if (parentMenuPage == null)
+            {
+                // TODO : should we close the menu graph then ? CloseMenuGraph()
+                return false;
+            }
+
+            SetCurrentMenu(parentMenuPage);
+            return true;
+        }
+
+        private MenuPage InstanciateMenu(string id)
+        {
+            MenuPage menuPage = Instantiate(_nodeLookup[id].MenuPagePrefab);
+            menuPage.Parent = _currentMenu ?? null;
+            menuPage.RuntimeMenuNode = _nodeLookup[id];
+
+            return menuPage;
+        }
+
+        private void DisableCurrentMenu()
         {
             if (_currentMenu)
             {
@@ -72,16 +124,29 @@ namespace MenuGraphTool
             }
         }
 
-        private void InstanciateNewMenu(string id)
+        private void DestroyCurrentMenu()
         {
-            _currentNode = _nodeLookup[id];
-            _currentMenu = Instantiate(_currentNode.MenuPagePrefab);
+            if (_currentMenu)
+            {
+                _currentMenu.OnNextMenu -= OnNextMenu;
+                Destroy(_currentMenu.gameObject);
+            }
+        }
+
+        private void SetCurrentMenu(MenuPage menuPage)
+        {
+            _currentMenu = menuPage;
+
+            _currentNode = _nodeLookup[menuPage.RuntimeMenuNode.NodeID];
             _currentNode.RuntimeMenuPage = _currentMenu;
+
+            _currentMenu.gameObject.SetActive(true);
             _currentMenu.OnNextMenu += OnNextMenu;
         }
 
         private void PassParameterToMenu(MenuPage targetMenu, RuntimeMenuNode targetNode)
         {
+            // TODO : targetMenu = targetNode.MenuPagePrefab
             foreach (KeyValuePair<string, InputInfos> kvp in targetNode.InputParamOutputDict)
             {
                 BindingFlags flags = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
@@ -130,14 +195,37 @@ namespace MenuGraphTool
         {
             return Convert.ChangeType(inputInfo.rawVal, type);
         }
+        #endregion Opening Menus
+
+        #region Inputs
+        private void OnBackPerformed(InputAction.CallbackContext context)
+        {
+            if (TryOpenParentMenu() == false)
+            {
+                // TODO : should we close the menu graph then ? CloseMenuGraph()
+            }
+        }
+        #endregion Inputs
         #endregion Methods
 
         #region Callbacks
         private void OnNextMenu(string actionName)
         {
-            OpenMenu(_nodeLookup[_currentNode.NextNodeDict[actionName]]?.NodeID);
+            if (!_currentNode.NextNodeDict.ContainsKey(actionName))
+            {
+                Debug.LogWarning($"No menu assigned for the flow \"{actionName}\" of the menu \"{_currentNode.MenuPagePrefab.name}\".");
+                return;
+            }
+
+            string id = _currentNode.NextNodeDict[actionName];
+            if (!_nodeLookup.ContainsKey(id))
+            {
+                Debug.LogWarning($"No menu assigned for the flow \"{actionName}\" of the menu \"{_currentNode.MenuPagePrefab.name}\".");
+                return;
+            }
+            
+            TryOpenMenu(_nodeLookup[id].NodeID);
         }
         #endregion Callbacks
-
     }
 }
