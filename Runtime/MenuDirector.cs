@@ -11,9 +11,9 @@ namespace MenuGraphTool
     {
         #region Fields
         // Graph
-        private RuntimeMenuGraph _runtimeGraph;
-        private Dictionary<string, RuntimeMenuNode> _nodeLookup = new();
-        private RuntimeMenuNode _currentNode;
+        private MenuGraph _runtimeGraph;
+        private Dictionary<string, MenuNode> _nodeLookup = new();
+        private MenuNode _currentNode;
 
         // Runtime Menus
         private MenuPage _currentMenu;
@@ -75,7 +75,7 @@ namespace MenuGraphTool
         #region Opening Menus
         // TODO : Using params object[] is not good practice, as if we add a new variable in the graph, then errors will appear in
         // runtime when trying to open the graph
-        public void OpenMenuGraph(RuntimeMenuGraph RuntimeGraph, params object[] variables)
+        public void OpenMenuGraph(MenuGraph RuntimeGraph, params object[] variables)
         {
             if (string.IsNullOrEmpty(RuntimeGraph.EntryNodeID))
             {
@@ -86,7 +86,7 @@ namespace MenuGraphTool
             ClearMenuGraph();
             CurrentActionReference = _defaultActionReference;
 
-            foreach (RuntimeMenuNode node in RuntimeGraph.AllNodes)
+            foreach (MenuNode node in RuntimeGraph.AllNodes)
             {
                 _nodeLookup[node.NodeID] = node;
             }
@@ -190,7 +190,7 @@ namespace MenuGraphTool
             _currentMenu.OnNextMenu += OnNextMenu;
         }
 
-        private void PassParameterToMenu(MenuPage targetMenu, RuntimeMenuNode targetNode)
+        private void PassParameterToMenu(MenuPage targetMenu, MenuNode targetNode)
         {
             // TODO : targetMenu = targetNode.MenuPagePrefab
             foreach (KeyValuePair<string, InputInfos> kvp in targetNode.InputParamOutputDict)

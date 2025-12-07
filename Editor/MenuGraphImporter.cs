@@ -7,15 +7,15 @@ using UnityEngine;
 
 namespace MenuGraphTool.Editor
 {
-    [ScriptedImporter(1, MenuGraph.ASSET_EXTENSION)]
+    [ScriptedImporter(1, MenuGraphEditor.ASSET_EXTENSION)]
     public class MenuGraphImporter : ScriptedImporter
     {
-        private MenuGraph _editorGraph;
+        private MenuGraphEditor _editorGraph;
 
         public override void OnImportAsset(AssetImportContext ctx)
         {
-            _editorGraph = GraphDatabase.LoadGraphForImporter<MenuGraph>(ctx.assetPath);
-            RuntimeMenuGraph runtimeGraph = ScriptableObject.CreateInstance<RuntimeMenuGraph>();
+            _editorGraph = GraphDatabase.LoadGraphForImporter<MenuGraphEditor>(ctx.assetPath);
+            MenuGraph runtimeGraph = ScriptableObject.CreateInstance<MenuGraph>();
             Dictionary<INode, string> nodeIdMap = new();
 
             foreach (INode node in _editorGraph.GetNodes())
@@ -49,7 +49,7 @@ namespace MenuGraphTool.Editor
                     continue;
                 }
 
-                RuntimeMenuNode runtimeNode = new RuntimeMenuNode { NodeID = nodeIdMap[node] };
+                MenuGraphTool.MenuNode runtimeNode = new MenuGraphTool.MenuNode { NodeID = nodeIdMap[node] };
                 if (node is MenuNode menuNode)
                 {
                     ProcessMenuGraphNode(menuNode, runtimeNode, nodeIdMap);
@@ -61,7 +61,7 @@ namespace MenuGraphTool.Editor
             ctx.SetMainObject(runtimeGraph);
         }
 
-        private void ProcessMenuGraphNode(MenuNode node, RuntimeMenuNode runtimeNode, Dictionary<INode, string> nodeIdMap)
+        private void ProcessMenuGraphNode(MenuNode node, MenuGraphTool.MenuNode runtimeNode, Dictionary<INode, string> nodeIdMap)
         {
             INodeOption menuPrefab = node.GetNodeOptionByName(MenuNode.MENU_OPTION_ID);
 

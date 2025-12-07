@@ -8,7 +8,7 @@ namespace MenuGraphTool.Editor
 {
     [Serializable]
     [Graph(ASSET_EXTENSION)]
-    public class MenuGraph : Graph
+    public class MenuGraphEditor : Graph
     {
         #region Fields
         internal const string DEFAULT_GRAPH_NAME = "New Menu Graph";
@@ -19,7 +19,7 @@ namespace MenuGraphTool.Editor
         [MenuItem("Assets/Create/Menu Graph")]
         private static void CreateAssetFile()
         {
-            GraphDatabase.PromptInProjectBrowserToCreateNewAsset<MenuGraph>(DEFAULT_GRAPH_NAME);
+            GraphDatabase.PromptInProjectBrowserToCreateNewAsset<MenuGraphEditor>(DEFAULT_GRAPH_NAME);
         }
         #endregion Static Methods
 

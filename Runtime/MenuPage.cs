@@ -9,7 +9,7 @@ namespace MenuGraphTool
     public class MenuPage : MonoBehaviour
     {
         #region Fields
-        private RuntimeMenuNode _runtimeMenuNode;
+        private MenuNode _runtimeMenuNode;
         private MenuPage _parent;
 
         [SerializeField] private BackActionReference _backInput;
@@ -18,7 +18,7 @@ namespace MenuGraphTool
         #endregion Fields
 
         #region Properties
-        public RuntimeMenuNode RuntimeMenuNode
+        public MenuNode RuntimeMenuNode
         {
             get { return _runtimeMenuNode; }
             set { _runtimeMenuNode = value; }

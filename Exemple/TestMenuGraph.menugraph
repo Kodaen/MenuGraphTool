@@ -236,6 +236,9 @@ MonoBehaviour:
     - rid: 617746490553270359
       type: {class: 'Constant`1[[MenuGraphTool.Character, Assembly-CSharp]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
       data: 
+    - rid: 617746490553270368
+      type: {class: MenuGraphEditor, ns: MenuGraphTool.Editor, asm: MenuGraphTool.Editor}
+      data: 
     - rid: 952603111946190917
       type: {class: GraphModelImp, ns: Unity.GraphToolkit.Editor.Implementation, asm: Unity.GraphToolkit.Editor}
       data:
@@ -319,7 +322,7 @@ MonoBehaviour:
         m_EntryPoint:
           rid: 952603111946190947
         m_Graph:
-          rid: 952603111946190919
+          rid: 617746490553270368
     - rid: 952603111946190918
       type: {class: SectionModel, ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
       data:
@@ -332,9 +335,6 @@ MonoBehaviour:
         m_Version: 2
         m_Items: []
         m_Title: 
-    - rid: 952603111946190919
-      type: {class: MenuGraph, ns: MenuGraphTool.Editor, asm: MenuGraphTool.Editor}
-      data: 
     - rid: 952603111946190947
       type: {class: UserNodeModelImp, ns: Unity.GraphToolkit.Editor.Implementation, asm: Unity.GraphToolkit.Editor}
       data:

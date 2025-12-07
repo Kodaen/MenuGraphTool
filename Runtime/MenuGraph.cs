@@ -5,15 +5,15 @@ using UnityEngine;
 
 namespace MenuGraphTool
 {
-    public class RuntimeMenuGraph : ScriptableObject
+    public class MenuGraph : ScriptableObject
     {
         public string EntryNodeID;
-        public List<RuntimeMenuNode> AllNodes = new();
+        public List<MenuNode> AllNodes = new();
         public List<SerializedObject> AllVariables = new();
     }
 
     [Serializable]
-    public class RuntimeMenuNode
+    public class MenuNode
     {
         // Reference to the menu, to get the runtime values needed to open the menus
         public MenuPage MenuPagePrefab;

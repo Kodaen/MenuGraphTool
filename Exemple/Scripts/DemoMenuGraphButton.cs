@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class DemoMenuGraphButton : MonoBehaviour
 {
-    [SerializeField] private RuntimeMenuGraph _menuGraph;
+    [SerializeField] private MenuGraph _menuGraph;
 
     public void OpenMenuGraph()
     {
