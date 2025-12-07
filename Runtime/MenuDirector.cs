@@ -4,14 +4,13 @@ using System.Reflection;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-
 namespace MenuGraphTool
 {
-    public class MenuDirector : MonoBehaviour
+    public class MenuDirector : MonoSingleton<MenuDirector>
     {
         #region Fields
         // Graph
-        [SerializeField] private RuntimeMenuGraph _runtimeGraph;
+        private RuntimeMenuGraph _runtimeGraph;
         private Dictionary<string, RuntimeMenuNode> _nodeLookup = new();
         private RuntimeMenuNode _currentNode;
 
@@ -19,24 +18,37 @@ namespace MenuGraphTool
         private MenuPage _currentMenu;
 
         [SerializeField] private InputActionReference _backActionReference = null;
-        #endregion Fields
 
+        #region Event
+        private static Action _onCurrentMenuGraphCloses = null;
+        public static event Action OnCurrentMenuGraphCloses
+        {
+            add
+            {
+                _onCurrentMenuGraphCloses -= value;
+                _onCurrentMenuGraphCloses += value;
+            }
+            remove
+            {
+                _onCurrentMenuGraphCloses -= value;
+            }
+        }
+        #endregion Event
+
+        #endregion Fields
         #region Methods
         private void Awake()
         {
-            // TODO : Make this class a singleton, so it's easier to open menus, and to disable inputs
-            // TODO : Depending on the menu opened, it shall automatically detect to desiable the back action if
+            // TODO : Depending on the menu opened, it shall automatically detect to disable the back action if
             // the parent menu had it disabled when opening its submenu, and it is openned back
-            _backActionReference.action.Enable();
-            _backActionReference.action.performed += OnBackPerformed;
         }
 
-        // TEMP : Opening the graph should be done by calling the method OpenMenuGraph
-        private void Start()
+        private void ClearMenuGraph()
         {
-            // TEMP : Exemple Character
-            Character chara = new() { Name = "bonjour" };
-            OpenMenuGraph(_runtimeGraph, chara);
+            _runtimeGraph = null;
+            _nodeLookup.Clear();
+            _currentNode = null;
+            _currentMenu = null;
         }
 
         #region Opening Menus
@@ -49,6 +61,9 @@ namespace MenuGraphTool
                 Debug.LogError($"{RuntimeGraph.name} doesn't have a start node");
                 return;
             }
+
+            ClearMenuGraph();
+            EnableBackInput();
 
             foreach (RuntimeMenuNode node in RuntimeGraph.AllNodes)
             {
@@ -71,9 +86,12 @@ namespace MenuGraphTool
             TryOpenMenu(RuntimeGraph.EntryNodeID);
         }
 
-        public void CloseMenuCurrentMenuGraph()
+        private void CloseMenuCurrentMenuGraph()
         {
-            // TODO : Invoke an event to tell the caller of the menu graph that it is closed
+            ClearMenuGraph();
+            EnableBackInput(false);
+
+            _onCurrentMenuGraphCloses?.Invoke();
         }
 
         private bool TryOpenMenu(string id)
@@ -98,7 +116,6 @@ namespace MenuGraphTool
             MenuPage parentMenuPage = _currentMenu.Parent;
             if (parentMenuPage == null)
             {
-                // TODO : should we close the menu graph then ? CloseMenuGraph()
                 return false;
             }
 
@@ -202,7 +219,21 @@ namespace MenuGraphTool
         {
             if (TryOpenParentMenu() == false)
             {
-                // TODO : should we close the menu graph then ? CloseMenuGraph()
+                CloseMenuCurrentMenuGraph();
+            }
+        }
+
+        public void EnableBackInput(bool enable = true)
+        {
+            if (enable)
+            {
+                _backActionReference.action.Enable();
+                _backActionReference.action.performed += OnBackPerformed;
+            }
+            else
+            {
+                _backActionReference.action.Disable();
+                _backActionReference.action.performed -= OnBackPerformed;
             }
         }
         #endregion Inputs
