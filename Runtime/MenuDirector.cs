@@ -17,7 +17,27 @@ namespace MenuGraphTool
         // Runtime Menus
         private MenuPage _currentMenu;
 
-        [SerializeField] private InputActionReference _backActionReference = null;
+        [SerializeField] private InputAction _defaultActionReference = null;
+        private InputAction _currentActionReference = null;
+        #endregion Fields
+
+        #region Properties
+        public InputAction CurrentActionReference
+        {
+            get { return _currentActionReference; }
+            set
+            {
+                if (_currentActionReference == value)
+                {
+                    return;   
+                }
+
+                EnableBackInput(false);
+                _currentActionReference = value;
+                EnableBackInput(true);
+            }
+        }
+        #endregion Properties
 
         #region Event
         private static Action _onCurrentMenuGraphCloses = null;
@@ -34,8 +54,7 @@ namespace MenuGraphTool
             }
         }
         #endregion Event
-
-        #endregion Fields
+        
         #region Methods
         private void Awake()
         {
@@ -49,6 +68,7 @@ namespace MenuGraphTool
             _nodeLookup.Clear();
             _currentNode = null;
             _currentMenu = null;
+            CurrentActionReference = null;
         }
 
         #region Opening Menus
@@ -63,7 +83,7 @@ namespace MenuGraphTool
             }
 
             ClearMenuGraph();
-            EnableBackInput();
+            CurrentActionReference = _defaultActionReference;
 
             foreach (RuntimeMenuNode node in RuntimeGraph.AllNodes)
             {
@@ -89,7 +109,6 @@ namespace MenuGraphTool
         private void CloseMenuCurrentMenuGraph()
         {
             ClearMenuGraph();
-            EnableBackInput(false);
 
             _onCurrentMenuGraphCloses?.Invoke();
         }
@@ -106,6 +125,9 @@ namespace MenuGraphTool
             MenuPage menuPage = InstanciateMenu(id);
             SetCurrentMenu(menuPage);
             PassParameterToMenu(_currentMenu, _currentNode);
+
+            AssignBackInput();
+
             return true;
         }
 
@@ -120,6 +142,7 @@ namespace MenuGraphTool
             }
 
             SetCurrentMenu(parentMenuPage);
+            AssignBackInput();
             return true;
         }
 
@@ -212,6 +235,27 @@ namespace MenuGraphTool
         {
             return Convert.ChangeType(inputInfo.rawVal, type);
         }
+
+        private void AssignBackInput()
+        {
+            switch (_currentMenu.BackInput.BackInputAction)
+            {
+                case BackActionType.Default:
+                    CurrentActionReference = _defaultActionReference;
+                    break;
+
+                case BackActionType.Override:
+                    CurrentActionReference = _currentMenu.BackInput.InputAction;
+                    break;
+
+                case BackActionType.None:
+                    CurrentActionReference = null;
+                    break;
+
+                default:
+                    throw new NotImplementedException();
+            }
+        }
         #endregion Opening Menus
 
         #region Inputs
@@ -225,15 +269,20 @@ namespace MenuGraphTool
 
         public void EnableBackInput(bool enable = true)
         {
+            if (_currentActionReference == null)
+            {
+                return;
+            }
+
             if (enable)
             {
-                _backActionReference.action.Enable();
-                _backActionReference.action.performed += OnBackPerformed;
+                _currentActionReference.Enable();
+                _currentActionReference.performed += OnBackPerformed;
             }
             else
             {
-                _backActionReference.action.Disable();
-                _backActionReference.action.performed -= OnBackPerformed;
+                _currentActionReference.Disable();
+                _currentActionReference.performed -= OnBackPerformed;
             }
         }
         #endregion Inputs
@@ -254,7 +303,7 @@ namespace MenuGraphTool
                 Debug.LogWarning($"No menu assigned for the flow \"{actionName}\" of the menu \"{_currentNode.MenuPagePrefab.name}\".");
                 return;
             }
-            
+
             TryOpenMenu(_nodeLookup[id].NodeID);
         }
         #endregion Callbacks

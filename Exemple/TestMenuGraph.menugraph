@@ -127,14 +127,14 @@ MonoBehaviour:
           - __option_menu
           - __option_menu_preview
           - 0
-          - 1
           - 2
+          - 1
           m_ValueList:
           - rid: 617746460340125973
           - rid: 617746460340125974
           - rid: 617746460340125975
-          - rid: 617746460340125977
           - rid: 617746460340125978
+          - rid: 617746490553270359
         m_InputPortInfos:
           expandedPortsById:
             m_KeyList: []
@@ -197,9 +197,6 @@ MonoBehaviour:
     - rid: 617746460340125976
       type: {class: MenuNode, ns: MenuGraphTool.Editor, asm: MenuGraphTool.Editor}
       data: 
-    - rid: 617746460340125977
-      type: {class: 'Constant`1[[MenuGraphTool.Character, MenuGraphTool]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
-      data: 
     - rid: 617746460340125978
       type: {class: 'Constant`1[[System.Int32, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
       data:
@@ -236,6 +233,9 @@ MonoBehaviour:
           m_PortDirection: 1
           m_PortOrientation: 0
           m_Title: _character
+    - rid: 617746490553270359
+      type: {class: 'Constant`1[[MenuGraphTool.Character, Assembly-CSharp]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
+      data: 
     - rid: 952603111946190917
       type: {class: GraphModelImp, ns: Unity.GraphToolkit.Editor.Implementation, asm: Unity.GraphToolkit.Editor}
       data:

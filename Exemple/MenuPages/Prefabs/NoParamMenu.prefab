@@ -405,6 +405,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 266c85ac8b553f541be62a4fba37c164, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MenuGraphTool.NoParamMenu
+  _backInput:
+    BackActionType: 0
+    InputAction:
+      m_Name: Input
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: fc383e21-5e84-43f2-8998-53db9ce7c0e5
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings:
+      - m_Name: 
+        m_Id: c54355dd-3829-4bf8-a0cd-401c769829f6
+        m_Path: <Keyboard>/backspace
+        m_Interactions: 
+        m_Processors: 
+        m_Groups: 
+        m_Action: Input
+        m_Flags: 0
+      m_Flags: 0
   _nextMenuButton: {fileID: 5759561738610769126}
 --- !u!1 &8274879298455813335
 GameObject:

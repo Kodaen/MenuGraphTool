@@ -283,4 +283,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37bb558d82ba8224b8e59ad80ae24400, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MenuGraphTool.AttackMenu
+  _backInput:
+    BackActionType: 0
+    InputAction:
+      m_Name: Input
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: df2a12d0-7d3b-46f5-902c-b2f96d0ba361
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings:
+      - m_Name: 
+        m_Id: 452ae46c-4420-4895-84a5-2f7040141cc4
+        m_Path: <Keyboard>/x
+        m_Interactions: 
+        m_Processors: 
+        m_Groups: 
+        m_Action: Input
+        m_Flags: 0
+      m_Flags: 0
   _textField: {fileID: 508146382928061773}

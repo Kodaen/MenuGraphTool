@@ -688,7 +688,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac1bbf30d2087db48b0f5e6835062b15, type: 3}
   m_Name: 
   m_EditorClassIdentifier: MenuGraphTool::MenuGraphTool.MenuDirector
-  _backActionReference: {fileID: 2808818798975713983, guid: d9a1dc9a9cee65e49b866cc2b6f50eab, type: 3}
+  _defaultActionReference:
+    m_Name: Default Action Reference
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: b321a6a8-413a-48fa-b8cd-11c42ac6c3a1
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings:
+    - m_Name: 
+      m_Id: d13fbbd0-b578-4142-93a1-e1e8f5e07f6e
+      m_Path: <Keyboard>/escape
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Default Action Reference
+      m_Flags: 0
+    m_Flags: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

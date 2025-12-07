@@ -44,3 +44,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0c3e451d0a48f348b97ade6cc8d5155, type: 3}
   m_Name: 
   m_EditorClassIdentifier: MenuGraphTool::MenuGraphTool.MenuPage
+  _backInput:
+    BackActionType: 0
+    InputAction:
+      m_Name: Input
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: 82e3c9d6-d211-4627-acdf-692e04fdad46
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+      m_Flags: 0
