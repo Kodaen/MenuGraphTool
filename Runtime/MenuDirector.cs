@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
 namespace MenuGraphTool
@@ -29,7 +30,7 @@ namespace MenuGraphTool
             {
                 if (_currentActionReference == value)
                 {
-                    return;   
+                    return;
                 }
 
                 EnableBackInput(false);
@@ -54,7 +55,7 @@ namespace MenuGraphTool
             }
         }
         #endregion Event
-        
+
         #region Methods
         private void Awake()
         {
@@ -151,6 +152,11 @@ namespace MenuGraphTool
             MenuPage menuPage = Instantiate(_nodeLookup[id].MenuPagePrefab);
             menuPage.Parent = _currentMenu ?? null;
             menuPage.RuntimeMenuNode = _nodeLookup[id];
+
+            if (menuPage.FirstSelected != null)
+            {
+                EventSystem.current.SetSelectedGameObject(menuPage.FirstSelected.gameObject);
+            }
 
             return menuPage;
         }
