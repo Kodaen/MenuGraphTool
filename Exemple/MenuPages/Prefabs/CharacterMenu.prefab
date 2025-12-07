@@ -44,3 +44,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37a0c37ba969465429c945b226d725e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MenuGraphTool.CharacterMenu
+  _backInput:
+    BackActionType: 0
+    InputAction:
+      m_Name: Input
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: 83555076-3a20-4b08-8956-afb7cfb6501a
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+      m_Flags: 0

@@ -1,5 +1,3 @@
-using System.IO;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using UnityEditor;
 using UnityEngine;
@@ -24,8 +22,8 @@ namespace MenuGraphTool.Editor
         {
             _root = new();
             _property = property;
-            
-            LoadUXML(_root);
+
+            _root.LoadUXML();
             BindVisualElements();
             UpdateSnapshotPreview();
 
@@ -84,7 +82,6 @@ namespace MenuGraphTool.Editor
 
             if (canvas == null)
             {
-                // TODO : Display error instead of logging it.
                 _snapshotPreview.style.backgroundImage = new();
                 _errorScreen.style.display = DisplayStyle.Flex;
                 return;
@@ -95,20 +92,6 @@ namespace MenuGraphTool.Editor
             Texture2D texture = canvasSnapshotMaker.TakeSnapshot();
 
             _snapshotPreview.style.backgroundImage = texture;
-        }
-
-        private void LoadUXML(in VisualElement target, [CallerFilePath] string absoluteScriptFilePath = "")
-        {
-            string currentFilePath = $"Assets" + absoluteScriptFilePath.Substring(Application.dataPath.Length);
-            string uxmlPath = Path.ChangeExtension(currentFilePath, "uxml");
-            VisualTreeAsset uxml = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(uxmlPath);
-
-            if (uxml == null)
-            {
-                throw new FileNotFoundException($"Couldn't find a UXML asset at this location \"{uxmlPath}\"");
-            }
-
-            uxml.CloneTree(target);
         }
     }
 }
