@@ -283,8 +283,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37bb558d82ba8224b8e59ad80ae24400, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MenuGraphTool.AttackMenu
+  _openingMode: 0
+  _firstSelectedElement: {fileID: 0}
   _backInput:
-    BackActionType: 0
+    BackInputAction: 0
     InputAction:
       m_Name: Input
       m_Type: 0

@@ -186,7 +186,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Button
+  m_text: Replace
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -322,7 +322,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Button
+  m_text: Add
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -531,8 +531,8 @@ RectTransform:
   - {fileID: 3002607173923965647}
   m_Father: {fileID: 211957527729405695}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 0.5, y: 0.71142775}
+  m_AnchorMax: {x: 0.5, y: 0.71142775}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -627,9 +627,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 656662083534453253}
-  - component: {fileID: 2863360359890417884}
+  - component: {fileID: 7557082317039479253}
   m_Layer: 0
-  m_Name: NoParamMenu
+  m_Name: ReplaceMenu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -651,7 +651,7 @@ Transform:
   - {fileID: 211957527729405695}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2863360359890417884
+--- !u!114 &7557082317039479253
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -660,10 +660,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 8131454858681470164}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 266c85ac8b553f541be62a4fba37c164, type: 3}
+  m_Script: {fileID: 11500000, guid: c31d36929a5363946b8dc5fceea444d8, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::MenuGraphTool.NoParamMenu
-  _openingMode: 1
+  m_EditorClassIdentifier: Assembly-CSharp::MenuGraphTool.AddOrReplaceMenu
+  _openingMode: 0
   _firstSelectedElement: {fileID: 5759561738610769126}
   _backInput:
     BackInputAction: 0
@@ -671,21 +671,13 @@ MonoBehaviour:
       m_Name: Input
       m_Type: 0
       m_ExpectedControlType: 
-      m_Id: fc383e21-5e84-43f2-8998-53db9ce7c0e5
+      m_Id: 403459af-5a54-48fa-a2fc-c55de64a472b
       m_Processors: 
       m_Interactions: 
-      m_SingletonActionBindings:
-      - m_Name: 
-        m_Id: c54355dd-3829-4bf8-a0cd-401c769829f6
-        m_Path: <Keyboard>/backspace
-        m_Interactions: 
-        m_Processors: 
-        m_Groups: 
-        m_Action: Input
-        m_Flags: 0
+      m_SingletonActionBindings: []
       m_Flags: 0
-  _nextMenuButton: {fileID: 5759561738610769126}
-  _nextMenuButton2: {fileID: 5781510465898804245}
+  _add: {fileID: 5759561738610769126}
+  _replace: {fileID: 5781510465898804245}
 --- !u!1 &8274879298455813335
 GameObject:
   m_ObjectHideFlags: 0
@@ -744,7 +736,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.19215687, g: 0.3254902, b: 0.77254903, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1

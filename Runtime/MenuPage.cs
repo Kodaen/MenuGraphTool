@@ -1,7 +1,6 @@
 using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 namespace MenuGraphTool
@@ -11,9 +10,13 @@ namespace MenuGraphTool
         #region Fields
         private MenuNode _runtimeMenuNode;
         private MenuPage _parent;
+        private CanvasGroup _canvasGroup;
 
-        [SerializeField] private BackActionReference _backInput;
+        [Header("Menu parameters")]
+        [SerializeField] private MenuOpeningMode _openingMode;
         [SerializeField] private Selectable _firstSelectedElement;
+        [SerializeField] private BackActionReference _backInput;
+
         private GameObject _lastSelectedElement;
         #endregion Fields
 
@@ -30,10 +33,10 @@ namespace MenuGraphTool
             set { _parent = value; }
         }
 
-        public BackActionReference BackInput
+        public MenuOpeningMode OpeningMode
         {
-            get { return _backInput; }
-            set { _backInput = value; }
+            get { return _openingMode; }
+            set { _openingMode = value; }
         }
 
         public Selectable FirstSelected
@@ -46,6 +49,12 @@ namespace MenuGraphTool
         {
             get { return _lastSelectedElement; }
             set { _lastSelectedElement = value; }
+        }
+
+        public BackActionReference BackInput
+        {
+            get { return _backInput; }
+            set { _backInput = value; }
         }
         #endregion Properties
 
@@ -63,6 +72,21 @@ namespace MenuGraphTool
                 _onNextMenu -= value;
             }
         }
+
+        private Action _onExitMenu = null;
+        public event Action OnExitMenu
+        {
+            add
+            {
+                _onExitMenu -= value;
+                _onExitMenu += value;
+            }
+            remove
+            {
+                _onExitMenu -= value;
+            }
+        }
+
         #endregion Events
 
         #region Methods
@@ -75,6 +99,34 @@ namespace MenuGraphTool
             }
 
             _onNextMenu?.Invoke(ExecutionFlow);
+        }
+
+        public virtual void ExitMenu()
+        {
+            _onExitMenu?.Invoke();
+        }
+
+        public virtual void OnMenuFocused()
+        {
+            SetCanvasGroupInteractible(true);
+        }
+
+        public virtual void OnMenuUnfocused()
+        {
+            SetCanvasGroupInteractible(false);
+        }
+
+        private void SetCanvasGroupInteractible(bool interactible = true)
+        {
+            if (_canvasGroup == null)
+            {
+                _canvasGroup = GetComponentInChildren<CanvasGroup>();
+                if (_canvasGroup == null)
+                {
+                    return;
+                }
+            }
+            _canvasGroup.interactable = interactible;
         }
         #endregion Methods
     }

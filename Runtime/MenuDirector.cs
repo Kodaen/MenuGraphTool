@@ -121,20 +121,27 @@ namespace MenuGraphTool
                 Debug.LogWarning("Couldn't find menu to open.");
                 return false;
             }
-            // TODO : Hiding or not the previous menu should be an option
-            DisableCurrentMenu();
+
             MenuPage menuPage = InstanciateMenu(id);
+
+            if (menuPage.OpeningMode == MenuOpeningMode.Add)
+            {
+                UnfocusMenu(_currentMenu);
+            }
+            else
+            {
+                DisableMenu(_currentMenu);
+            }
+
             SetCurrentMenu(menuPage);
             PassParameterToMenu(_currentMenu, _currentNode);
-
-            AssignBackInput();
 
             return true;
         }
 
         private bool TryOpenParentMenu()
         {
-            DestroyCurrentMenu();
+            DestroyMenu(_currentMenu);
 
             MenuPage parentMenuPage = _currentMenu.Parent;
             if (parentMenuPage == null)
@@ -142,9 +149,29 @@ namespace MenuGraphTool
                 return false;
             }
 
+            if (parentMenuPage.OpeningMode == MenuOpeningMode.Add)
+            {
+                ReopenAdditiveParentMenu(parentMenuPage);
+            }
+   
             SetCurrentMenu(parentMenuPage);
-            AssignBackInput();
+          
             return true;
+        }
+
+        private void ReopenAdditiveParentMenu(MenuPage menuPage)
+        {
+            MenuPage parentMenuPage = menuPage.Parent;
+            if (parentMenuPage == null)
+            {
+                return;
+            }
+
+            parentMenuPage.gameObject.SetActive(true);
+            if (parentMenuPage.OpeningMode == MenuOpeningMode.Add)
+            {
+                ReopenAdditiveParentMenu(parentMenuPage);
+            }
         }
 
         private MenuPage InstanciateMenu(string id)
@@ -153,30 +180,7 @@ namespace MenuGraphTool
             menuPage.Parent = _currentMenu ?? null;
             menuPage.RuntimeMenuNode = _nodeLookup[id];
 
-            if (menuPage.FirstSelected != null)
-            {
-                EventSystem.current.SetSelectedGameObject(menuPage.FirstSelected.gameObject);
-            }
-
             return menuPage;
-        }
-
-        private void DisableCurrentMenu()
-        {
-            if (_currentMenu)
-            {
-                _currentMenu.OnNextMenu -= OnNextMenu;
-                _currentMenu.gameObject.SetActive(false);
-            }
-        }
-
-        private void DestroyCurrentMenu()
-        {
-            if (_currentMenu)
-            {
-                _currentMenu.OnNextMenu -= OnNextMenu;
-                Destroy(_currentMenu.gameObject);
-            }
         }
 
         private void SetCurrentMenu(MenuPage menuPage)
@@ -187,7 +191,8 @@ namespace MenuGraphTool
             _currentNode.RuntimeMenuPage = _currentMenu;
 
             _currentMenu.gameObject.SetActive(true);
-            _currentMenu.OnNextMenu += OnNextMenu;
+            FocusMenu(_currentMenu);
+            AssignBackInput();
         }
 
         private void PassParameterToMenu(MenuPage targetMenu, MenuNode targetNode)
@@ -241,6 +246,72 @@ namespace MenuGraphTool
         {
             return Convert.ChangeType(inputInfo.rawVal, type);
         }
+
+        #region Menu Operations
+        private void UnfocusMenu(MenuPage menuPage)
+        {
+            if (menuPage == null)
+            {
+                return;
+            }
+
+            menuPage.OnNextMenu -= OnNextMenu;
+            // TODO : Not sure about this one
+            menuPage.OnExitMenu -= OnExitMenu;
+            menuPage.OnMenuUnfocused();
+        }
+
+        private void FocusMenu(MenuPage menuPage)
+        {
+            if (menuPage == null)
+            {
+                return;
+            }
+
+            if (menuPage.LastSelected != null)
+            {
+                EventSystem.current.SetSelectedGameObject(menuPage.LastSelected.gameObject);
+            }
+            else if (menuPage.FirstSelected != null)
+            {
+                EventSystem.current.SetSelectedGameObject(menuPage.FirstSelected.gameObject);
+            }
+
+            menuPage.OnNextMenu += OnNextMenu;
+            menuPage.OnExitMenu += OnExitMenu;
+            menuPage.OnMenuFocused();
+        }
+
+        private void DisableMenu(MenuPage menuPage)
+        {
+            if (menuPage == null)
+            {
+                return;
+            }
+
+            if (menuPage.OpeningMode == MenuOpeningMode.Add)
+            {
+                DisableMenu(menuPage.Parent);
+            }
+
+            menuPage.OnNextMenu -= OnNextMenu;
+            menuPage.OnExitMenu -= OnExitMenu;
+            menuPage.gameObject.SetActive(false);
+        }
+
+        private void DestroyMenu(MenuPage menuPage)
+        {
+            if (menuPage == null)
+            {
+                return;
+            }
+
+            menuPage.OnNextMenu -= OnNextMenu;
+            menuPage.OnExitMenu -= OnExitMenu;
+            Destroy(menuPage.gameObject);
+
+        } 
+        #endregion Menu Operations
 
         private void AssignBackInput()
         {
@@ -311,6 +382,14 @@ namespace MenuGraphTool
             }
 
             TryOpenMenu(_nodeLookup[id].NodeID);
+        }
+
+        private void OnExitMenu()
+        {
+            if (TryOpenParentMenu() == false)
+            {
+                CloseMenuCurrentMenuGraph();
+            }
         }
         #endregion Callbacks
     }
