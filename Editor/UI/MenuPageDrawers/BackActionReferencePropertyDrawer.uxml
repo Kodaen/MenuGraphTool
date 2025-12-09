@@ -1,5 +1,5 @@
 <ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
-    <uie:PropertyField name="BackActionType" binding-path="BackInputAction" />
+    <uie:PropertyField name="BackActionType" binding-path="BackInputAction" tooltip="Default: The default back input action will be used, this menu can be closed with the back input key.&#010;&#010;Override: The selected back input action will be used, this menu can be closed with the selected back input action.&#010;&#010;None: The back input action is disabled, this menu cannot be closed with the back input action." />
     <uie:PropertyField name="InputActionReference" binding-path="InputAction" />
     <ui:VisualElement name="Spacer" style="height: 15px;" />
 </ui:UXML>

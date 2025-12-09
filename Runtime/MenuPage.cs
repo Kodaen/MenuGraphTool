@@ -13,8 +13,12 @@ namespace MenuGraphTool
         private CanvasGroup _canvasGroup;
 
         [Header("Menu parameters")]
-        [SerializeField] private MenuOpeningMode _openingMode;
         [SerializeField] private Selectable _firstSelectedElement;
+        [Tooltip(
+            "Replace: Opens menu and disables parent menu. Useful for fullscreen menus.\r\n\r\n" +
+            "Add: Opens the menu without closing its parent. Useful for popups. " +
+            "It is highly recommanded to add a canvas group to your prefab in order to disable navigation input in the parent Menu.")]
+        [SerializeField]private MenuOpeningMode _openingMode;
         [SerializeField] private BackActionReference _backInput;
 
         private GameObject _lastSelectedElement;
