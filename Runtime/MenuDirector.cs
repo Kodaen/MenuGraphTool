@@ -75,36 +75,38 @@ namespace MenuGraphTool
         #region Opening Menus
         // TODO : Using params object[] is not good practice, as if we add a new variable in the graph, then errors will appear in
         // runtime when trying to open the graph
-        public void OpenMenuGraph(MenuGraph RuntimeGraph, params object[] variables)
+        public void OpenMenuGraph(MenuGraph runtimeGraph, params object[] variables)
         {
-            if (string.IsNullOrEmpty(RuntimeGraph.EntryNodeID))
+            if (string.IsNullOrEmpty(runtimeGraph.EntryNodeID))
             {
-                Debug.LogError($"{RuntimeGraph.name} doesn't have a start node");
+                Debug.LogError($"{runtimeGraph.name} doesn't have a start node");
                 return;
             }
 
             ClearMenuGraph();
             CurrentActionReference = _defaultActionReference;
 
-            foreach (MenuNode node in RuntimeGraph.AllNodes)
+            foreach (MenuNode node in runtimeGraph.AllNodes)
             {
                 _nodeLookup[node.NodeID] = node;
             }
 
             // TODO : Prone to mistakes and errors
             // Set Variables
-            if (variables.Length != RuntimeGraph.AllVariables.Count)
+            if (variables.Length != runtimeGraph.AllVariables.Count)
             {
-                Debug.LogWarning($"The number of variables to set for the MenuGraph {RuntimeGraph.name} doesn't correspond the number of parameters given to open it." +
+                Debug.LogWarning($"The number of variables to set for the MenuGraph {runtimeGraph.name} doesn't correspond the number of parameters given to open it." +
                     $"Some errors may occur when navigating in the menus.");
             }
 
-            for (int i = 0; i < variables.Length && i < RuntimeGraph.AllVariables.Count; i++)
+            for (int i = 0; i < variables.Length && i < runtimeGraph.AllVariables.Count; i++)
             {
-                RuntimeGraph.AllVariables[i].Value = variables[i];
+                runtimeGraph.AllVariables[i].Value = variables[i];
             }
 
-            TryOpenMenu(RuntimeGraph.EntryNodeID);
+            _runtimeGraph = runtimeGraph;
+
+            TryOpenMenu(runtimeGraph.EntryNodeID);
         }
 
         private void CloseMenuCurrentMenuGraph()
