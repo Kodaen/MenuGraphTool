@@ -1,7 +1,0 @@
-.unity-base-field {
-    justify-content: space-between;
-}
-
-.unity-base-field > Label {
-    width: 38%;
-}

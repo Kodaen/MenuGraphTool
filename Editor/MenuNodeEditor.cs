@@ -159,7 +159,6 @@ namespace MenuGraphTool.Editor
         #endregion Methods
     }
 
-    // TODO : Bad naming
     public class ExecutionFlow
     { }
 }
