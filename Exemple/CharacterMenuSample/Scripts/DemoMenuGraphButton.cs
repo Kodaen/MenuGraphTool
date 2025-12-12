@@ -11,7 +11,10 @@ public class DemoMenuGraphButton : MonoBehaviour
         {
             return;            
         }
-        MenuDirector.Instance.OpenMenuGraph(_menuGraph);
+
+        Character character = new();
+
+        MenuDirector.Instance.OpenMenuGraph(_menuGraph, character);
         MenuDirector.OnCurrentMenuGraphCloses += OnCurrentMenuGraphCloses;
 
         this.gameObject.SetActive(false);

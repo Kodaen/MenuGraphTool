@@ -18,10 +18,10 @@ namespace MenuGraphTool
             "Replace: Opens menu and disables parent menu. Useful for fullscreen menus.\r\n\r\n" +
             "Add: Opens the menu without closing its parent. Useful for popups. " +
             "It is highly recommanded to add a canvas group to your prefab in order to disable navigation input in the parent Menu.")]
-        [SerializeField]private MenuOpeningMode _openingMode;
+        [SerializeField] private MenuOpeningMode _openingMode;
         [SerializeField] private BackActionReference _backInput;
 
-        private GameObject _lastSelectedElement;
+        protected GameObject _lastSelectedElement;
         #endregion Fields
 
         #region Properties

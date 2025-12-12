@@ -446,7 +446,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6793f8ab8cbf944ab5d71653e217cc3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DemoMenuGraphButton
-  _menuGraph: {fileID: 3965311268370046156, guid: 7308701e9fb26684d8e284e761705364, type: 3}
+  _menuGraph: {fileID: 3965311268370046156, guid: d39fc4fa977bc00448b12b07ee85b94c, type: 3}
 --- !u!1 &1892801551
 GameObject:
   m_ObjectHideFlags: 0
