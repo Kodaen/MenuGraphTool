@@ -6,6 +6,7 @@ using Unity.GraphToolkit.Editor;
 namespace MenuGraphTool.Editor
 {
     [Serializable]
+    [UseWithGraph(typeof(MenuGraphEditor))]
     public class MenuNode : Node
     {
         #region Fields
@@ -83,8 +84,8 @@ namespace MenuGraphTool.Editor
             {
                 FieldInfo field = fields[i];
 
-                MenuInputAttribute menuOutputAttribute = field.GetCustomAttribute<MenuInputAttribute>();
-                if (menuOutputAttribute == null)
+                MenuInputAttribute menuInputAttribute = field.GetCustomAttribute<MenuInputAttribute>();
+                if (menuInputAttribute == null)
                 {
                     continue;
                 }
@@ -145,6 +146,7 @@ namespace MenuGraphTool.Editor
     }
 
     [Serializable]
+    [UseWithGraph(typeof(MenuGraphEditor))]
     internal class StartNode : Node
     {
         #region Methods

@@ -78,6 +78,7 @@ namespace MenuGraphTool.Editor
                     string paramName = inputPort.displayName;
                     InputInfos inputInfos = new();
 
+                    // Input comes from a Field
                     if (inputPort.isConnected == false)
                     {
                         if (!inputPort.TryGetValue(out object value) || value == null)
@@ -93,6 +94,7 @@ namespace MenuGraphTool.Editor
                         inputInfos.InputOrigin = InputOrigin.Field;
                         inputInfos.rawVal = value.ToString(); 
                     }
+                    // Input comes from a Variable
                     else if (inputPort.firstConnectedPort.GetNode() is IVariableNode variable)
                     {
                         if (!TryGetVariableIndex(variable.variable, out int index))
@@ -103,6 +105,7 @@ namespace MenuGraphTool.Editor
                         inputInfos.InputOrigin = InputOrigin.Variable;
                         inputInfos.VariableIndex = index;
                     }
+                    // Input comes from another Node
                     else
                     {
                         inputInfos.InputOrigin = InputOrigin.OtherNode;
