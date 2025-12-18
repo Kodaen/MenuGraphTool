@@ -12,9 +12,12 @@ namespace MenuGraphTool.Editor
         private VisualElement _root = new();
         private PropertyField _inputActionReferenceField;
 
+
+        [SerializeField] private VisualTreeAsset _visualTreeAsset;
+
         public override VisualElement CreatePropertyGUI(SerializedProperty property)
         {
-            _root.LoadUXML();
+            _visualTreeAsset.CloneTree(_root);
 
             BindVisualElements();
             return _root;

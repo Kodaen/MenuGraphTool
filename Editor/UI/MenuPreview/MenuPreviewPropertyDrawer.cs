@@ -16,6 +16,9 @@ namespace MenuGraphTool.Editor
         private VisualElement _root = new();
         private VisualElement _snapshotPreview;
         private VisualElement _errorScreen;
+
+
+        [SerializeField] private VisualTreeAsset _visualTreeAsset;
         #endregion Fields
 
         public override VisualElement CreatePropertyGUI(SerializedProperty property)
@@ -23,7 +26,7 @@ namespace MenuGraphTool.Editor
             _root = new();
             _property = property;
 
-            _root.LoadUXML();
+            _visualTreeAsset.CloneTree(_root);
             BindVisualElements();
             UpdateSnapshotPreview();
 
