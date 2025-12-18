@@ -12,8 +12,8 @@ namespace MenuGraphTool
         #region Menu Flow
         private const string NEXT_MENU = "Next Menu";
 
-        [MenuOutput(NEXT_MENU)]
-        private Character _chara;
+        //[MenuOutput(NEXT_MENU)]
+        //private Character _chara;
 
         [MenuOutput(NEXT_MENU)]
         private int _itemId;
@@ -36,7 +36,7 @@ namespace MenuGraphTool
         private void OnButtonClicked()
         {
             // TEMP
-            _chara = new() { Name = "bonjour" };
+            //_chara = new() { Name = "bonjour" };
             OpenNextMenu(NEXT_MENU);
         } 
         #endregion Callbacks

@@ -7,7 +7,7 @@
         [MenuInput]
         private int ItemID;
 
-        [MenuOutput(TRADE)]
-        private Character _character;
+        //[MenuOutput(TRADE)]
+        //private Character _character;
     }
 }

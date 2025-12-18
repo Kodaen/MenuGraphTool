@@ -9,5 +9,13 @@
   },
   "author": {
     "name": "Kodaen"
-  }
+  },
+
+  "samples": [
+    {
+      "displayName": "Sample",
+      "description": "Contains sample menu for a character.",
+      "path": "Samples~/CharacterMenuSample"
+    }
+  ]
 }

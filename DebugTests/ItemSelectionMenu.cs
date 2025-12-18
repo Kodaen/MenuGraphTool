@@ -4,8 +4,8 @@
     {
         const string SELECTED_ITEM = "SelectedItem";
 
-        [MenuInput]
-        private Character Character;
+        //[MenuInput]
+        //private Character Character;
 
         [MenuOutput(SELECTED_ITEM)]
         private int _itemId;
