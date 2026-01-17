@@ -119,6 +119,12 @@ namespace MenuGraphTool
             SetCanvasGroupInteractible(false);
         }
 
+        public virtual void OnChildMenuOpened()
+        { }
+
+        public virtual void OnChildMenuClosed()
+        {  }
+
         private void SetCanvasGroupInteractible(bool interactible = true)
         {
             if (_canvasGroup == null)

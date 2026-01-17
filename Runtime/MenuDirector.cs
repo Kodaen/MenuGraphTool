@@ -138,6 +138,11 @@ namespace MenuGraphTool
             SetCurrentMenu(menuPage);
             PassParameterToMenu(_currentMenu, _currentNode);
 
+            if (menuPage.Parent != null)
+            {
+                menuPage.Parent.OnChildMenuOpened();
+            }
+            FocusMenu(_currentMenu);
             return true;
         }
 
@@ -151,13 +156,15 @@ namespace MenuGraphTool
                 return false;
             }
 
+            parentMenuPage.OnChildMenuClosed();
             if (parentMenuPage.OpeningMode == MenuOpeningMode.Add)
             {
                 ReopenAdditiveParentMenu(parentMenuPage);
             }
    
             SetCurrentMenu(parentMenuPage);
-          
+
+            FocusMenu(_currentMenu);
             return true;
         }
 
@@ -193,7 +200,6 @@ namespace MenuGraphTool
             _currentNode.RuntimeMenuPage = _currentMenu;
 
             _currentMenu.gameObject.SetActive(true);
-            FocusMenu(_currentMenu);
             AssignBackInput();
         }
 
