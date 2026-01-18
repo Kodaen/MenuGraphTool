@@ -65,6 +65,7 @@ namespace MenuGraphTool
 
         private void ClearMenuGraph()
         {
+            DestroyChildren(this.gameObject);
             _runtimeGraph = null;
             _nodeLookup.Clear();
             _currentNode = null;
@@ -109,8 +110,14 @@ namespace MenuGraphTool
             TryOpenMenu(runtimeGraph.EntryNodeID);
         }
 
-        private void CloseMenuCurrentMenuGraph()
+        public void CloseMenuCurrentMenuGraph(bool bruteForce = false)
         {
+            if (!bruteForce)
+            {
+                while (TryOpenParentMenu())
+                { }
+            }
+
             ClearMenuGraph();
 
             _onCurrentMenuGraphCloses?.Invoke();
@@ -161,7 +168,7 @@ namespace MenuGraphTool
             {
                 ReopenAdditiveParentMenu(parentMenuPage);
             }
-   
+
             SetCurrentMenu(parentMenuPage);
 
             FocusMenu(_currentMenu);
@@ -185,7 +192,7 @@ namespace MenuGraphTool
 
         private MenuPage InstanciateMenu(string id)
         {
-            MenuPage menuPage = Instantiate(_nodeLookup[id].MenuPagePrefab);
+            MenuPage menuPage = Instantiate(_nodeLookup[id].MenuPagePrefab, transform);
             menuPage.Parent = _currentMenu ?? null;
             menuPage.RuntimeMenuNode = _nodeLookup[id];
 
@@ -318,7 +325,7 @@ namespace MenuGraphTool
             menuPage.OnExitMenu -= OnExitMenu;
             Destroy(menuPage.gameObject);
 
-        } 
+        }
         #endregion Menu Operations
 
         private void AssignBackInput()
@@ -400,5 +407,18 @@ namespace MenuGraphTool
             }
         }
         #endregion Callbacks
+
+        #region Helpers
+        private void DestroyChildren(GameObject go)
+        {
+            while (go.transform.childCount > 0)
+            {
+                Transform child = go.transform.GetChild(0);
+                child.SetParent(null);
+                GameObject.Destroy(child.gameObject);
+            }
+        }
+        #endregion Helpers
+
     }
 }
